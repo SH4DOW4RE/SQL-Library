@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    background-color: #F0F0F0;
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+.filters {
+    background-color: #999999;
+    border-radius: 0px 0px 20px 20px;
+    padding: 20px;
+    text-align: center;
+    width: calc(100vw - 40px);
+    max-width: calc(100% - 40px);
+}
+
+.filters > form > input {
+    border-radius: 10px;
+    padding: 5px;
+    border: none;
+    vertical-align: middle;
+    width: 30%;
+}
+
+#av-yes,
+#av-no {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: 5px;
+}
+
+label {
+    margin-top: 5px;
+    display:inline-block;
+    vertical-align: middle;
+}
+
+#sub {
+    margin-top: 25px;
+    width: 50%;
+    border-radius: 10px;
+    padding: 5px;
+    border: none;
+    vertical-align: middle;
+    width: 30%;
+}
+
+body > .result {
+    width: 90vw;
+    background-color: #999999;
+    border-radius: 10px;
+    margin: 10vh auto 0 auto;
+    padding: 15px;
+    padding-top: 5px;
+}
+
+body > .result ~ .result {
+    margin: 15px auto 0 auto;
+}
+
+.result-title,
+.result-author,
+.result-editor,
+.result-available,
+.result-notavailable,
+.result-availability {
+    width: 25%;
+    text-align: center;
+}
+
+.result-available,
+.result-notavailable {
+    font-weight: bold;
+}
+
+.result-available {
+    color: #00FF00;
+}
+
+.result-notavailable {
+    color: #FF0000;
+}
+
+td {
+    border-top: 2px solid black;
+    padding: 10px 0 10px 0;
+}
+
+.first-td {
+    border: none;
+    padding: 15px 0 15px 0;
+    font-weight: bold;
+    background-color: #555555;
+    border-radius: 10px;
+    color: #F0F0F0;
+}
+
+.page-system {
+    width: 30vw;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.page-system > .curr-page,
+.page-system > .page-button {
+    display: inline;
+}
+
+.page-button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    background-color: #999999;
+    border-radius: 50%;
+    cursor: pointer;
+}

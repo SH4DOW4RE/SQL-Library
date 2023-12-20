@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar {
+    background-color: #808080;
+    width: 100vw;
+    max-width: 100%;
+    padding: 10px 20px;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.navbar td {
+    border: none;
+}
+
+.nav-logo {
+    width: 65%;
+}
+
+.nav-logo > img{
+    height: 8vh;
+}
+
+.nav-search {
+    width: 20%;
+}
+
+.nav-search > form > input {
+    background-image: url("../assets/magnifing-glass.svg");
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 5px 50%;
+    padding: 3px 10px 3px 30px;
+    font-size: 20px;
+    outline: none;
+    border: 2px solid black;
+    border-radius: 13px;
+    width: calc(100% - 44px);
+}
+
+.nav-account {
+    text-align: center;
+}
+
+.nav-account > a {
+    background-color: #303030;
+    padding: 10px 15px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px black;
+    transition: all .3s ease;
+}
+
+.nav-account > a:hover {
+    color: #FFDE57;
+}
+
+.nav-lang {
+    text-align: center;
+    width: 5%;
+}
+
+.nav-lang > a {
+    border-radius: 50%;
+}
+
+.nav-lang > a > img {
+    width: 5vh;
+    border-radius: 50%;
+    transition: all .2s ease;
+}
+
+.nav-lang > a > img:hover {
+    width: 6vh;
+}

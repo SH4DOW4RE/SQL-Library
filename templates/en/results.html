@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home | SQL Library</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+        <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+    </head>
+    <body onload="load()">
+        <!-- Navbar -->
+        <table class="navbar">
+            <tr>
+                <td class="nav-logo">
+                    <img src="{{ url_for('static', filename='assets/logo.png') }}">
+                </td>
+                <td class="nav-search">
+                    <form action="/search" method="POST" id="query-frm">
+                        <input type="text" name="query" id="query" placeholder="Search a book name" value="{{ query|safe }}">
+                        <input type="text" name="first" id="first" value="true" hidden>
+                    </form>
+                </td>
+                <td class="nav-account">
+                    <a href="/account">Account</a>
+                </td>
+                <td class="nav-lang">
+                    <a href="/fr"><img src="{{ url_for('static', filename='assets/lang/fr.png') }}"></a>
+                </td>
+            </tr>
+        </table>
+        <!-- End of Navbar -->
+
+        <!-- Search Filters -->
+        <div class="filters">
+            <form action="/search" method="POST" id="filters-frm">
+                <input type="text" name="query" id="query" hidden value="{{ query|safe }}">
+                <input type="text" name="author" id="author" placeholder="Author" value="{{ author|safe }}">
+                <input type="text" name="editor" id="editor" placeholder="Editor" value="{{ editor|safe }}">
+                <br>
+                <input type="radio" name="available" id="av-yes" value="true" {{ avy_checked|safe }}><label for="av-yes">Available</label>
+                <input type="radio" name="available" id="av-no" value="false" {{ avn_checked|safe }}><label for="av-no">Not Available</label>
+                <br>
+                <input type="submit" id="sub" value="Apply filters" onclick="send_frm()">
+                <button id="sub" onclick="reset_frm()">Reset filters</button>
+                <input type="number" name="page" id="page" value="{{ curr_page|safe }}" hidden>
+            </form>
+        </div>
+        <!-- End of Search Filters -->
+
+        <!-- Results -->
+        <table class="result">
+            <tr>
+                <td class="result-title first-td">
+                    Title
+                </td>
+                <td class="result-author first-td">
+                    Author
+                </td>
+                <td class="result-editor first-td">
+                    Editor
+                </td>
+                <td class="result-availability first-td">
+                    Availability
+                </td>
+            </tr>
+        {{ results|safe }}
+        <!-- End of Results -->
+
+        <!-- Page system -->
+        <div class="page-system">
+            <button class="page-button" onclick="changePage('p')"><</button>
+            <div class="curr-page" id="curr-page">{{ cursor|safe }}</div>
+            <button class="page-button" onclick="changePage('n')">></button>
+        </div>
+        <!-- End of Page system -->
+    </body>
+</html>
