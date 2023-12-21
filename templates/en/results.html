@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Home | SQL Library</title>
+        <title>Results | SQL Library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -15,7 +15,7 @@
         <table class="navbar">
             <tr>
                 <td class="nav-logo">
-                    <img src="{{ url_for('static', filename='assets/logo.png') }}">
+                    <a href="/"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
                 </td>
                 <td class="nav-search">
                     <form action="/search" method="POST" id="query-frm">

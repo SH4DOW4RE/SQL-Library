@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from mysql import connector
 from waitress import serve
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import argparse
 import secrets
 import sys
@@ -35,36 +36,74 @@ argParser.add_argument("-p", "--prod", help="Enable production mode", action='st
 
 @app.route('/<lang>')
 @app.route('/')
-def index(lang = ''):
+def index(lang = '', flash = ''):
+    flash = '"' + flash + '"'
     if lang == 'fr':
-        return render_template('fr/index.html')
+        return render_template('fr/index.html', flash=flash)
     else:
-        return render_template('en/index.html')
+        return render_template('en/index.html', flash=flash)
 
 @app.route('/<lang>/account')
 @app.route('/account')
 def account(lang = ''):
-    firstname = None
-    try: firstname = session['firstname']
+    email = None
+    password = None
+    try: email = session.get('email')
+    except: pass
+    try: password = session.get('password')
     except: pass
     if lang == 'fr':
-        if firstname != None:
-            return render_template('fr/account.html')
+        if email != None and password != None:
+            firstname = ''
+            lastname = ''
+            db_cur.execute(f"""SELECT nom, prenom FROM abonne WHERE email = "{email}" AND mot_de_passe = "{password}";""")
+            results = db_cur.fetchall()
+            db.commit()
+
+            if len(results) < 1:
+                return redirect('/fr/connect')
+
+            firstname = results[0][1]
+            lastname = results[0][0]
+
+            return render_template('fr/account.html', firstname=firstname, lastname=lastname)
         else:
+            session.clear()
             return redirect('/fr/connect')
     else:
-        if firstname != None:
-            return render_template('en/account.html')
+        if email != None and password != None:
+            firstname = ''
+            lastname = ''
+            db_cur.execute(f"""SELECT prenom, nom, date_naissance, adresse, code_postal, ville, date_inscription, date_fin_abo, email, mot_de_passe FROM abonne WHERE email = "{email}" AND mot_de_passe = "{password}";""")
+            results = db_cur.fetchall()
+            db.commit()
+
+            if len(results) < 1:
+                return redirect('/connect')
+
+            firstname = results[0][0]
+            lastname = results[0][1].upper()
+            endsub = results[0][7]
+            endsub2 = results[0][7].strftime('%d/%m/%Y')
+            birthday = results[0][2]
+            address = results[0][3]
+            zipcode = results[0][4]
+            city = results[0][5]
+            regdate = results[0][6]
+
+            return render_template('en/account.html', firstname=firstname, lastname=lastname, endsub2=endsub2, email=email, password=password, birthday=birthday, address=address, zipcode=zipcode, city=city, regdate=regdate, endsub=endsub)
         else:
+            session.clear()
             return redirect('/connect')
 
 @app.route('/<lang>/connect')
 @app.route('/connect')
-def connect(lang = ''):
+def connect(lang = '', flash = ''):
+    flash = '"' + flash + '"'
     if lang == 'fr':
-        return render_template('fr/connect.html')
+        return render_template('fr/connect.html', flash=flash)
     else:
-        return render_template('en/connect.html')
+        return render_template('en/connect.html', flash=flash)
 
 @app.route('/<lang>/connect', methods=['POST'])
 @app.route('/connect', methods=['POST'])
@@ -74,15 +113,47 @@ def connect_post(lang = ''):
         email = request.form['email']
         password = request.form['password']
         
+        db_cur.execute(f"""SELECT prenom, nom, email, mot_de_passe FROM abonne WHERE email = "{email}" AND mot_de_passe = "{password}";""")
+        results = db_cur.fetchall()
+        db.commit()
+        
+        if len(results) < 1:
+            return connect(lang, 'Wrong username or password.')
+        else:
+            session['email'] = email
+            session['password'] = password
+            
+            return index(lang, f"Welcome {results[0][0]} {results[0][1].upper()}")
+        
     elif c_type == 'register':
         email = request.form['email']
+        while '"' in email: email = email.replace('"', '')
         password = request.form['password']
+        while '"' in password: password = password.replace('"', '')
         firstname = request.form['firstname']
+        while '"' in firstname: firstname = firstname.replace('"', '')
         lastname = request.form['lastname']
+        while '"' in lastname: lastname = lastname.replace('"', '')
         birthday = request.form['birthday']
+        while '"' in birthday: birthday = birthday.replace('"', '')
         address = request.form['address']
+        while '"' in address: address = address.replace('"', '')
         zipcode = request.form['zipcode']
+        while '"' in zipcode: zipcode = zipcode.replace('"', '')
         city = request.form['city']
+        while '"' in city: city = city.replace('"', '')
+        
+        today = datetime.now().strftime('%Y-%m-%d')
+        abo = (datetime.now() + relativedelta(years=1)).strftime('%Y-%m-%d')
+        
+        db_cur.execute(
+            f"""
+                INSERT INTO abonne (prenom, nom, date_naissance, adresse, code_postal, ville, date_inscription, date_fin_abo, email, mot_de_passe)
+                VALUES ("{firstname.capitalize()}", "{lastname.capitalize()}", "{birthday}", "{address}", "{zipcode}", "{city.upper()}", "{today}", "{abo}", "{email}", "{password}")
+            """)
+        db.commit()
+        
+        return connect(lang, 'Successfuly registered, please login now.')
 
 @app.route('/<lang>/search', methods=['POST'])
 @app.route('/search', methods=['POST'])

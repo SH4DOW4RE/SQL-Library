@@ -26,7 +26,7 @@ a {
     width: 65%;
 }
 
-.nav-logo > img{
+.nav-logo > a > img{
     height: 8vh;
 }
 

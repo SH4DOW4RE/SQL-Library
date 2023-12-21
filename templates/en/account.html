@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Account | SQL Library</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <link href="https://css.gg/css?=|eye-alt|eye" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/account.css') }}">
+        <script src="{{ url_for('static', filename='js/account.js') }}"></script>
+    </head>
+    <body onload="load();flash()">
+        <!-- Navbar -->
+        <table class="navbar">
+            <tr>
+                <td class="nav-logo">
+                    <a href="/"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
+                </td>
+                <td class="nav-search">
+                    <form action="/search" method="POST" id="query-frm">
+                        <input type="text" name="query" id="query" placeholder="Search a book name">
+                        <input type="text" name="first" id="first" value="true" hidden>
+                    </form>
+                </td>
+                <td class="nav-account">
+                    <a href="/account">Account</a>
+                </td>
+                <td class="nav-lang">
+                    <a href="/fr"><img src="{{ url_for('static', filename='assets/lang/fr.png') }}"></a>
+                </td>
+            </tr>
+        </table>
+        <!-- End of Navbar -->
+
+        <!-- User Info -->
+        <div class="container">
+            <form action="/account" method="post" id="update-frm">
+                <table class="info-container">
+                    <tr>
+                        <td colspan="3" class="name">
+                            Welcome <span class="bold">{{ firstname }} {{ lastname }}</span>
+                        </td>
+                        <td colspan="3" class="endsub">
+                            End of subscription: {{ endsub2 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="separator" colspan="6"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="border">
+                            Email: <input type="text" name="email" id="email" value="{{ email }}" placeholder="Email Address" autocomplete="email">
+                        </td>
+                        <td colspan="3" class="border">
+                            Password: <input type="password" name="password" id="password" value="{{ password }}" placeholder="Password" autocomplete="current-password">
+                            <button onclick="showPass()" id="button" class="show-pass"><i class="gg-eye-alt"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border">
+                            First Name: <input type="text" name="firstname" id="firstname" value="{{ firstname }}" placeholder="First Name" autocomplete="given-name">
+                        </td>
+                        <td colspan="2" class="border">
+                            Last Name: <input type="text" name="lastname" id="lastname" value="{{ lastname }}" placeholder="Last Name" autocomplete="family-name">
+                        </td>
+                        <td colspan="2" class="border">
+                            Birthday: <input type="date" name="birthday" id="birthday" value="{{ birthday }}" autocomplete="bday">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border">
+                            Address: <input type="text" name="address" id="address" value="{{ address }}" placeholder="Address" autocomplete="address-line1">
+                        </td>
+                        <td colspan="2" class="border">
+                            Zip Code: <input type="number" name="zipcode" id="zipcode" value="{{ zipcode }}" placeholder="Zip Code" autocomplete="postal-code">
+                        </td>
+                        <td colspan="2" class="border">
+                            City: <input type="text" name="city" id="city" value="{{ city }}" placeholder="City" autocomplete="address-level2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="border">
+                            Register Date: <input type="date" name="regdate" id="regdate" value="{{ regdate }}" autocomplete="reg-date">
+                        </td>
+                        <td colspan="3" class="border">
+                            End of Subscription: <input type="date" name="endsub" id="endsub" value="{{ endsub }}" autocomplete="end-sub">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="4">
+                            <input type="submit" class="submit border" value="Update Profile" onclick="document.getElementById('update-frm').submit()">
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <!-- End of User Info -->
+    </body>
+    <script> function flash() { if ({{ flash|safe }} != "") { alert({{ flash|safe }}); } } </script>
+</html>
