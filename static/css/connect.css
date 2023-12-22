@@ -11,7 +11,8 @@ body {
 .container {
     margin: auto;
     margin-top: 15vh;
-    width: 60vw;
+    width: 40vw;
+    height: 40vh;
     background-color: #A0A0A0;
     padding: 15px;
     border-radius: 20px;
@@ -19,7 +20,7 @@ body {
 
 @media (max-width: 1000px) {
     .container {
-        width: 90vw;
+        width: 60vw;
     }
 }
 
@@ -29,12 +30,15 @@ input {
     border-radius: 5px;
 }
 
+#password {
+    width: calc(100% - 50px);
+}
+
 td {
     padding: 0 15px 0 5px;
 }
 
-.login-title,
-.register-title {
+.login-title {
     text-align: center;
     padding-bottom: 15px;
     font-size: 25px;
@@ -49,8 +53,7 @@ td {
     width: 60%;
 }
 
-.login-container,
-.register-container {
+.login-container {
     margin: auto;
     background-color: #808080;
     padding: 10px;
@@ -82,4 +85,19 @@ td {
 
 #submit:hover {
     color: #FFDE57;
+}
+
+.show-pass {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    border: 1px solid black;
+    outline: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline;
+}
+
+.show-pass > i {
+    margin: auto;
 }

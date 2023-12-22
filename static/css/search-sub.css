@@ -29,16 +29,16 @@ body {
     width: 30%;
 }
 
-#av-yes,
-#av-no {
+#expired {
     width: 20px;
     height: 20px;
     vertical-align: middle;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 label {
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-left: 5px;
     display:inline-block;
     vertical-align: middle;
 }
@@ -66,28 +66,13 @@ body > .result ~ .result {
     margin: 15px auto 0 auto;
 }
 
-.result-title,
-.result-author,
-.result-editor,
-.result-last-borrow,
-.result-available,
-.result-notavailable,
-.result-availability {
+.result-lastname,
+.result-firstname,
+.result-city,
+.result-birthday,
+.result-end-sub {
     width: 20%;
     text-align: center;
-}
-
-.result-available,
-.result-notavailable {
-    font-weight: bold;
-}
-
-.result-available {
-    color: #00FF00;
-}
-
-.result-notavailable {
-    color: #FF0000;
 }
 
 td {

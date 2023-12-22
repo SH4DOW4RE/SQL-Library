@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Results | SQL Library</title>
+        <title>Search a Subscriber | SQL Library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
         <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
-        <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/search-sub.css') }}">
+        <script src="{{ url_for('static', filename='js/search-sub.js') }}"></script>
     </head>
     <body onload="load()">
         <!-- Navbar -->
@@ -35,13 +35,12 @@
 
         <!-- Search Filters -->
         <div class="filters">
-            <form action="/search" method="POST" id="filters-frm">
-                <input type="text" name="query" id="query" hidden value="{{ query|safe }}">
-                <input type="text" name="author" id="author" placeholder="Author" value="{{ author|safe }}">
-                <input type="text" name="editor" id="editor" placeholder="Editor" value="{{ editor|safe }}">
+            <form action="/search/sub" method="POST" id="filters-frm">
+                <input type="text" name="lastname" id="lastname" placeholder="Last Name" value="{{ lastname|safe }}">
+                <input type="text" name="firstname" id="firstname" placeholder="First Name" value="{{ firstname|safe }}">
+                <input type="text" name="city" id="city" placeholder="City" value="{{ city|safe }}">
                 <br>
-                <input type="radio" name="available" id="av-yes" value="true" {{ avy_checked|safe }}><label for="av-yes">Available</label>
-                <input type="radio" name="available" id="av-no" value="false" {{ avn_checked|safe }}><label for="av-no">Not Available</label>
+                <input type="checkbox" name="expired" id="expired" value="true" {{ expired|safe }}><label for="expired">Subscription Expired</label>
                 <br>
                 <input type="submit" id="sub" value="Apply filters" onclick="send_frm()">
                 <button id="sub" onclick="reset_frm()">Reset filters</button>
@@ -53,20 +52,20 @@
         <!-- Results -->
         <table class="result">
             <tr>
-                <td class="result-title first-td">
-                    Title
+                <td class="result-lastname first-td">
+                    Last Name
                 </td>
-                <td class="result-author first-td">
-                    Author
+                <td class="result-firstname first-td">
+                    First Name
                 </td>
-                <td class="result-editor first-td">
-                    Editor
+                <td class="result-city first-td">
+                    City
                 </td>
-                <td class="result-last-borrow first-td">
-                    Last Borow Date
+                <td class="result-birthday first-td">
+                    Birthday
                 </td>
-                <td class="result-availability first-td">
-                    Availability
+                <td class="result-end-sub first-td">
+                    End of Subscription
                 </td>
             </tr>
         {{ results|safe }}
@@ -74,9 +73,9 @@
 
         <!-- Page system -->
         <div class="page-system">
-            <button class="page-button" onclick="changePage('p')"><</button>
+            <button class="page-button" onclick="{{ cp|safe }}"><</button>
             <div class="curr-page" id="curr-page">{{ cursor|safe }}</div>
-            <button class="page-button" onclick="changePage('n')">></button>
+            <button class="page-button" onclick="{{ cn|safe }}">></button>
         </div>
         <!-- End of Page system -->
     </body>

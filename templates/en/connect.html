@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+        <link href="https://css.gg/css?=|eye-alt|eye" rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/connect.css') }}">
@@ -37,7 +38,7 @@
         <table class="container">
             <tr>
                 <td class="login-td">
-                    <form action="/connect" method="POST">
+                    <form action="/connect" method="POST" id="connect-frm">
                         <input type="text" name="c_type" id="c_type" value="login" hidden>
                         <table class="login-container">
                             <tr>
@@ -53,72 +54,12 @@
                             <tr>
                                 <td>
                                     <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password" required>
+                                    <button onclick="showPass()" id="button" class="show-pass" tabindex="-1"><i class="gg-eye-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="submit" id="submit" value="Login">
-                                </td>
-                            </tr>
-                        </table>   
-                    </form>
-                </td>
-                <td class="register-td">
-                    <form action="/connect" method="POST">
-                        <input type="text" name="c_type" id="c_type" value="register" hidden>
-                        <table class="register-container">
-                            <tr>
-                                <td class="register-title" colspan="2">
-                                    Register
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="email" name="email" id="email" placeholder="Email Address" autocomplete="email" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="password" name="password" id="password" placeholder="Password" autocomplete="new-password" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="additional-td" colspan="2">
-                                    Additionnal Info
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="text" name="firstname" id="firstname" placeholder="First Name" autocomplete="given-name" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="lastname" id="lastname" placeholder="Last Name" autocomplete="family-name" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="td-birth">
-                                    Birthday
-                                </td>
-                                <td>
-                                    <input type="date" name="birthday" id="birthday" autocomplete="bday" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="text" name="address" id="address" placeholder="Address" autocomplete="address-line1" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="number" name="zipcode" id="zipcode" placeholder="Zip Code" autocomplete="postal-code" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="city" id="city" placeholder="City" autocomplete="address-level2" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="submit" id="submit" value="Register">
+                                    <input type="submit" id="submit" value="Login" onclick="document.getElementById('connect-frm').submit()">
                                 </td>
                             </tr>
                         </table>   

@@ -25,7 +25,7 @@
                     </form>
                 </td>
                 <td class="nav-account">
-                    <a href="/account">Account</a>
+                    <a href="/disconnect">Disconnect</a>
                 </td>
                 <td class="nav-lang">
                     <a href="/fr"><img src="{{ url_for('static', filename='assets/lang/fr.png') }}"></a>
@@ -33,6 +33,14 @@
             </tr>
         </table>
         <!-- End of Navbar -->
+
+        {% if admin %}
+        <!-- Subscriber Search -->
+        <div class="admin-search">
+            <a href="/search/sub">Search a Subscriber</a>
+        </div>
+        <!-- End of Subscriber Search -->
+        {% endif %}
 
         <!-- User Info -->
         <div class="container">

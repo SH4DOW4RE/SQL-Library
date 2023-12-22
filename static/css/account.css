@@ -69,3 +69,22 @@ input {
 .show-pass > i {
     margin: auto;
 }
+
+.admin-search {
+    width: 100vw;
+    max-width: 100%;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.admin-search > a {
+    background-color: #303030;
+    padding: 10px 15px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px black;
+    margin-right: 10px;
+}
+
+.admin-search > a:hover {
+    color: #FFDE57;
+}
