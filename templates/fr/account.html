@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Account | SQL Library</title>
+        <title>Compte | SQL Library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -16,19 +16,19 @@
         <table class="navbar">
             <tr>
                 <td class="nav-logo">
-                    <a href="/"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
+                    <a href="/fr"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
                 </td>
                 <td class="nav-search">
-                    <form action="/search" method="POST" id="query-frm">
-                        <input type="text" name="query" id="query" placeholder="Search a book name">
+                    <form action="/fr/search" method="POST" id="query-frm">
+                        <input type="text" name="query" id="query" placeholder="Checher un titre de livre">
                         <input type="text" name="first" id="first" value="true" hidden>
                     </form>
                 </td>
                 <td class="nav-account">
-                    <a href="/disconnect">Disconnect</a>
+                    <a href="/fr/disconnect">Déconnecter</a>
                 </td>
                 <td class="nav-lang">
-                    <a href="/fr/account"><img src="{{ url_for('static', filename='assets/lang/fr.png') }}"></a>
+                    <a href="/account"><img src="{{ url_for('static', filename='assets/lang/en.png') }}"></a>
                 </td>
             </tr>
         </table>
@@ -37,21 +37,21 @@
         {% if admin %}
         <!-- Subscriber Search -->
         <div class="admin-search">
-            <a href="/search/sub">Search a Subscriber</a>
+            <a href="/fr/search/sub">Chercher un Abonné</a>
         </div>
         <!-- End of Subscriber Search -->
         {% endif %}
 
         <!-- User Info -->
         <div class="container">
-            <form action="/account" method="post" id="update-frm">
+            <form action="/fr/account" method="post" id="update-frm">
                 <table class="info-container">
                     <tr>
                         <td colspan="3" class="name">
-                            Welcome <span class="bold">{{ firstname }} {{ lastname }}</span>
+                            Bienvenue <span class="bold">{{ firstname }} {{ lastname }}</span>
                         </td>
                         <td colspan="3" class="endsub">
-                            End of subscription: {{ endsub2 }}
+                            Fin d'abonnement: {{ endsub2 }}
                         </td>
                     </tr>
                     <tr>
@@ -59,49 +59,49 @@
                     </tr>
                     <tr>
                         <td colspan="3" class="border">
-                            Email: <input type="text" name="email" id="email" value="{{ email }}" placeholder="Email Address" autocomplete="email" required>
+                            Email: <input type="text" name="email" id="email" value="{{ email }}" placeholder="Adresse Email" autocomplete="email" required>
                         </td>
                         <td colspan="3" class="border">
-                            Password: <input type="password" name="password" id="password" value="{{ password }}" placeholder="Password" autocomplete="current-password" required>
+                            Mot de passe: <input type="password" name="password" id="password" value="{{ password }}" placeholder="Mot de Passe" autocomplete="current-password" required>
                             <button onclick="showPass()" id="button" class="show-pass"><i class="gg-eye-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" class="border">
-                            First Name: <input type="text" name="firstname" id="firstname" value="{{ firstname }}" placeholder="First Name" autocomplete="given-name" required>
+                            Prénom: <input type="text" name="firstname" id="firstname" value="{{ firstname }}" placeholder="Prénom" autocomplete="given-name" required>
                             <input type="text" name="o_firstname" id="o_firstname" value="{{ firstname }}" hidden required>
                         </td>
                         <td colspan="2" class="border">
-                            Last Name: <input type="text" name="lastname" id="lastname" value="{{ lastname }}" placeholder="Last Name" autocomplete="family-name" required>
+                            Nom: <input type="text" name="lastname" id="lastname" value="{{ lastname }}" placeholder="Nom" autocomplete="family-name" required>
                             <input type="text" name="o_lastname" id="o_lastname" value="{{ lastname }}" hidden required>
                         </td>
                         <td colspan="2" class="border">
-                            Birthday: <input type="date" name="birthday" id="birthday" value="{{ birthday }}" autocomplete="bday" required>
+                            Date de naissance: <input type="date" name="birthday" id="birthday" value="{{ birthday }}" autocomplete="bday" required>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" class="border">
-                            Address: <input type="text" name="address" id="address" value="{{ address }}" placeholder="Address" autocomplete="address-line1" required>
+                            Adresse: <input type="text" name="address" id="address" value="{{ address }}" placeholder="Adresse" autocomplete="address-line1" required>
                         </td>
                         <td colspan="2" class="border">
-                            Zip Code: <input type="number" name="zipcode" id="zipcode" value="{{ zipcode }}" placeholder="Zip Code" autocomplete="postal-code" required>
+                            Code postal: <input type="number" name="zipcode" id="zipcode" value="{{ zipcode }}" placeholder="Code Postal" autocomplete="postal-code" required>
                         </td>
                         <td colspan="2" class="border">
-                            City: <input type="text" name="city" id="city" value="{{ city }}" placeholder="City" autocomplete="address-level2" required>
+                            Ville: <input type="text" name="city" id="city" value="{{ city }}" placeholder="Ville" autocomplete="address-level2" required>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3" class="border">
-                            Register Date: <input type="date" name="regdate" id="regdate" value="{{ regdate }}" autocomplete="reg-date" required>
+                            Date d'inscription: <input type="date" name="regdate" id="regdate" value="{{ regdate }}" autocomplete="reg-date" required>
                         </td>
                         <td colspan="3" class="border">
-                            End of Subscription: <input type="date" name="endsub" id="endsub" value="{{ endsub }}" autocomplete="end-sub" required>
+                            Fin d'abonnement: <input type="date" name="endsub" id="endsub" value="{{ endsub }}" autocomplete="end-sub" required>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td colspan="4">
-                            <input type="submit" class="submit border" value="Update Profile" onclick="document.getElementById('update-frm').submit()">
+                            <input type="submit" class="submit border" value="Mettre le profil à jour" onclick="document.getElementById('update-frm').submit()">
                         </td>
                         <td></td>
                     </tr>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Results | SQL Library</title>
+        <title>Résultats | SQL Library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -15,19 +15,19 @@
         <table class="navbar">
             <tr>
                 <td class="nav-logo">
-                    <a href="/"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
+                    <a href="/fr"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
                 </td>
                 <td class="nav-search">
-                    <form action="/search" method="POST" id="query-frm">
-                        <input type="text" name="query" id="query" placeholder="Search a book name" value="{{ query|safe }}">
+                    <form action="/fr/search" method="POST" id="query-frm">
+                        <input type="text" name="query" id="query" placeholder="Checher un titre de livre" value="{{ query|safe }}">
                         <input type="text" name="first" id="first" value="true" hidden>
                     </form>
                 </td>
                 <td class="nav-account">
-                    <a href="/account">Account</a>
+                    <a href="/fr/account">Compte</a>
                 </td>
                 <td class="nav-lang">
-                    <a onclick="reset_frm('fr')"><img src="{{ url_for('static', filename='assets/lang/fr.png') }}"></a>
+                    <a onclick="reset_frm()"><img src="{{ url_for('static', filename='assets/lang/en.png') }}"></a>
                 </td>
             </tr>
         </table>
@@ -35,16 +35,16 @@
 
         <!-- Search Filters -->
         <div class="filters">
-            <form action="/search" method="POST" id="filters-frm">
+            <form action="/fr/search" method="POST" id="filters-frm">
                 <input type="text" name="query" id="query" hidden value="{{ query|safe }}">
-                <input type="text" name="author" id="author" placeholder="Author" value="{{ author|safe }}">
-                <input type="text" name="editor" id="editor" placeholder="Editor" value="{{ editor|safe }}">
+                <input type="text" name="author" id="author" placeholder="Auteur" value="{{ author|safe }}">
+                <input type="text" name="editor" id="editor" placeholder="Editeur" value="{{ editor|safe }}">
                 <br>
-                <input type="radio" name="available" id="av-yes" value="true" {{ avy_checked|safe }}><label for="av-yes">Available</label>
-                <input type="radio" name="available" id="av-no" value="false" {{ avn_checked|safe }}><label for="av-no">Not Available</label>
+                <input type="radio" name="available" id="av-yes" value="true" {{ avy_checked|safe }}><label for="av-yes">Disponible</label>
+                <input type="radio" name="available" id="av-no" value="false" {{ avn_checked|safe }}><label for="av-no">Non Disponible</label>
                 <br>
-                <input type="submit" id="sub" value="Apply filters" onclick="send_frm()">
-                <button id="sub" onclick="reset_frm()">Reset filters</button>
+                <input type="submit" id="sub" value="Appliquer les filtres" onclick="send_frm()">
+                <button id="sub" onclick="reset_frm()">Réinitialiser les filtres</button>
                 <input type="number" name="page" id="page" value="{{ curr_page|safe }}" hidden>
             </form>
         </div>
@@ -54,19 +54,19 @@
         <table class="result">
             <tr>
                 <td class="result-title first-td">
-                    Title
+                    Titre
                 </td>
                 <td class="result-author first-td">
-                    Author
+                    Auteur
                 </td>
                 <td class="result-editor first-td">
-                    Editor
+                    Editeur
                 </td>
                 <td class="result-last-borrow first-td">
-                    Last Borow Date
+                    Dernier emprunt
                 </td>
                 <td class="result-availability first-td">
-                    Availability
+                    Disponibilité
                 </td>
             </tr>
         {{ results|safe }}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Search a Subscriber | SQL Library</title>
+        <title>Chercher un Abonné | SQL Library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -18,16 +18,16 @@
                     <a href="/"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
                 </td>
                 <td class="nav-search">
-                    <form action="/search" method="POST" id="query-frm">
-                        <input type="text" name="query" id="query" placeholder="Search a book name" value="{{ query|safe }}">
+                    <form action="/fr/search" method="POST" id="query-frm">
+                        <input type="text" name="query" id="query" placeholder="Checher un titre de livre" value="{{ query|safe }}">
                         <input type="text" name="first" id="first" value="true" hidden>
                     </form>
                 </td>
                 <td class="nav-account">
-                    <a href="/account">Account</a>
+                    <a href="/fr/account">Compte</a>
                 </td>
                 <td class="nav-lang">
-                    <a href="/fr/search/sub"><img src="{{ url_for('static', filename='assets/lang/fr.png') }}"></a>
+                    <a href="/search/sub"><img src="{{ url_for('static', filename='assets/lang/en.png') }}"></a>
                 </td>
             </tr>
         </table>
@@ -35,15 +35,15 @@
 
         <!-- Search Filters -->
         <div class="filters">
-            <form action="/search/sub" method="POST" id="filters-frm">
-                <input type="text" name="lastname" id="lastname" placeholder="Last Name" value="{{ lastname|safe }}">
-                <input type="text" name="firstname" id="firstname" placeholder="First Name" value="{{ firstname|safe }}">
-                <input type="text" name="city" id="city" placeholder="City" value="{{ city|safe }}">
+            <form action="/fr/search/sub" method="POST" id="filters-frm">
+                <input type="text" name="lastname" id="lastname" placeholder="Nom" value="{{ lastname|safe }}">
+                <input type="text" name="firstname" id="firstname" placeholder="Prénom" value="{{ firstname|safe }}">
+                <input type="text" name="city" id="city" placeholder="Ville" value="{{ city|safe }}">
                 <br>
-                <input type="checkbox" name="expired" id="expired" value="true" {{ expired|safe }}><label for="expired">Subscription Expired</label>
+                <input type="checkbox" name="expired" id="expired" value="true" {{ expired|safe }}><label for="expired">Abonnement expiré</label>
                 <br>
-                <input type="submit" id="sub" value="Apply filters" onclick="send_frm()">
-                <button id="sub" onclick="reset_frm()">Reset filters</button>
+                <input type="submit" id="sub" value="Appliquer les filtres" onclick="send_frm()">
+                <button id="sub" onclick="reset_frm()">Réinitialiser les filtres</button>
                 <input type="number" name="page" id="page" value="{{ curr_page|safe }}" hidden>
             </form>
         </div>
@@ -53,19 +53,19 @@
         <table class="result">
             <tr>
                 <td class="result-lastname first-td">
-                    Last Name
+                    Nom
                 </td>
                 <td class="result-firstname first-td">
-                    First Name
+                    Prénom
                 </td>
                 <td class="result-city first-td">
-                    City
+                    Ville
                 </td>
                 <td class="result-birthday first-td">
-                    Birthday
+                    Date de Naissance
                 </td>
                 <td class="result-end-sub first-td">
-                    End of Subscription
+                    Date de Fin d'Abonnement
                 </td>
             </tr>
         {{ results|safe }}

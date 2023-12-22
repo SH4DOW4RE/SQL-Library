@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Accueil | SQL Library</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    </head>
+    <body onload="load();flash()">
+        <!-- Navbar -->
+        <table class="navbar">
+            <tr>
+                <td class="nav-logo">
+                    <a href="/fr"><img src="{{ url_for('static', filename='assets/logo.png') }}"></a>
+                </td>
+                <td class="nav-search">
+                    <form action="/fr/search" method="POST" id="query-frm">
+                        <input type="text" name="query" id="query" placeholder="Checher un titre de livre">
+                        <input type="text" name="first" id="first" value="true" hidden>
+                    </form>
+                </td>
+                <td class="nav-account">
+                    <a href="/fr/account">Compte</a>
+                </td>
+                <td class="nav-lang">
+                    <a href="/"><img src="{{ url_for('static', filename='assets/lang/en.png') }}"></a>
+                </td>
+            </tr>
+        </table>
+        <!-- End of Navbar -->
+    </body>
+    <script> function flash() { if ({{ flash|safe }} != "") { alert({{ flash|safe }}); } } </script>
+</html>

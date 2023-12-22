@@ -15,11 +15,17 @@ function send_frm() {
     document.getElementById('filters-frm').submit();
 }
 
-function reset_frm() {
+function reset_frm(lang) {
     document.getElementById('author').value = "";
     document.getElementById('editor').value = "";
     document.getElementById('av-yes').checked = false;
     document.getElementById('av-no').checked = false;
+
+    if (lang == 'fr') {
+        document.getElementById('query-frm').action = "/fr/search";
+    } else {
+        document.getElementById('query-frm').action = "/search";
+    }
 
     document.getElementById('query-frm').submit();
 }

@@ -53,7 +53,31 @@ def account(lang = ''):
     try: password = session.get('password')
     except: pass
     if lang == 'fr':
-        pass
+        if email != None and password != None:
+            firstname = ''
+            lastname = ''
+            db_cur.execute(f"""SELECT prenom, nom, date_naissance, adresse, code_postal, ville, date_inscription, date_fin_abo, email, mot_de_passe, gestionnaire FROM abonne WHERE email = "{email}" AND mot_de_passe = "{password}";""")
+            results = db_cur.fetchall()
+            db.commit()
+
+            if len(results) < 1:
+                return redirect('/connect')
+
+            firstname = results[0][0]
+            lastname = results[0][1].upper()
+            endsub = results[0][7]
+            endsub2 = results[0][7].strftime('%d/%m/%Y')
+            birthday = results[0][2]
+            address = results[0][3]
+            zipcode = results[0][4]
+            city = results[0][5]
+            regdate = results[0][6]
+            admin = True if results[0][10] == 1 else False
+            
+            return render_template('fr/account.html', firstname=firstname, lastname=lastname, endsub2=endsub2, email=email, password=password, birthday=birthday, address=address, zipcode=zipcode, city=city, regdate=regdate, endsub=endsub, admin=admin)
+        else:
+            session.clear()
+            return redirect('/fr/connect')
     else:
         if email != None and password != None:
             firstname = ''
@@ -81,6 +105,80 @@ def account(lang = ''):
             session.clear()
             return redirect('/connect')
 
+@app.route('/<lang>/account', methods=['POST'])
+@app.route('/account', methods=['POST'])
+def account_post(lang = ''):
+    email = request.form['email']
+    while '"' in email: email = email.replace('"', '')
+    password = request.form['password']
+    while '"' in password: password = password.replace('"', '')
+    firstname = request.form['firstname']
+    while '"' in firstname: firstname = firstname.replace('"', '')
+    o_firstname = request.form['o_firstname']
+    while '"' in o_firstname: o_firstname = o_firstname.replace('"', '')
+    lastname = request.form['lastname']
+    while '"' in lastname: lastname = lastname.replace('"', '')
+    o_lastname = request.form['o_lastname']
+    while '"' in o_lastname: o_lastname = o_lastname.replace('"', '')
+    birthday = request.form['birthday']
+    while '"' in birthday: birthday = birthday.replace('"', '')
+    address = request.form['address']
+    while '"' in address: address = address.replace('"', '')
+    zipcode = request.form['zipcode']
+    while '"' in zipcode: zipcode = zipcode.replace('"', '')
+    city = request.form['city']
+    while '"' in city: city = city.replace('"', '')
+    regdate = request.form['regdate']
+    while '"' in regdate: regdate = regdate.replace('"', '')
+    endsub = request.form['endsub']
+    while '"' in endsub: endsub = endsub.replace('"', '')
+    
+    query = f"""
+        UPDATE
+            abonne
+        SET
+            prenom = "{firstname.capitalize()}",
+            nom = "{lastname.capitalize()}",
+            date_naissance = "{birthday}",
+            adresse = "{address.capitalize()}",
+            code_postal = "{zipcode}",
+            ville = "{city.upper()}",
+            date_inscription = "{regdate}",
+            date_fin_abo = "{endsub}",
+            email = "{email.lower()}",
+            mot_de_passe = "{password}"
+        WHERE
+            prenom LIKE "{o_firstname}"
+            AND nom LIKE "{o_lastname}";
+    """
+    
+    db_cur.execute(query)
+    db.commit()
+    
+    query = f"""
+        SELECT
+            gestionnaire
+        FROM
+            abonne
+        WHERE
+            LOWER(prenom) LIKE "{firstname.lower()}"
+            AND LOWER(nom) LIKE "{lastname.lower()}";
+    """
+    
+    db_cur.execute(query)
+    results = db_cur.fetchall()
+    db.commit()
+    
+    if results[0][0] == 1:
+        admin = True
+    else:
+        admin = False
+    
+    if lang == 'fr':
+        return render_template('fr/account.html', firstname=firstname, lastname=lastname, endsub2=datetime.strptime(endsub, '%Y-%m-%d').strftime('%d/%m/%Y'), email=email, password=password, birthday=birthday, address=address, zipcode=zipcode, city=city, regdate=regdate, endsub=endsub, admin=admin, flash='"Informations Modifiées."')
+    else:
+        return render_template('en/account.html', firstname=firstname, lastname=lastname, endsub2=datetime.strptime(endsub, '%Y-%m-%d').strftime('%d/%m/%Y'), email=email, password=password, birthday=birthday, address=address, zipcode=zipcode, city=city, regdate=regdate, endsub=endsub, admin=admin, flash='"Successfully modified."')
+
 @app.route('/<lang>/connect')
 @app.route('/connect')
 def connect(lang = '', flash = ''):
@@ -96,7 +194,7 @@ def connect_post(lang = ''):
     email = request.form['email']
     password = request.form['password']
     
-    db_cur.execute(f"""SELECT prenom, nom, email, mot_de_passe FROM abonne WHERE email = "{email}" AND mot_de_passe = "{password}";""")
+    db_cur.execute(f"""SELECT prenom, nom, email, mot_de_passe, gestionnaire FROM abonne WHERE email = "{email}" AND mot_de_passe = "{password}";""")
     results = db_cur.fetchall()
     db.commit()
     
@@ -108,12 +206,15 @@ def connect_post(lang = ''):
     else:
         session['email'] = email
         session['password'] = password
+        if results[0][4] == 1:
+            session['admin'] = True
+        else:
+            session['admin'] = False
         
         if lang == 'fr':
             return index(lang, f"Bienvenue {results[0][0]} {results[0][1].upper()}")
         else:
             return index(lang, f"Welcome {results[0][0]} {results[0][1].upper()}")
-            
 
 @app.route('/<lang>/search', methods=['POST'])
 @app.route('/search', methods=['POST'])
@@ -212,9 +313,6 @@ def search(lang = ''):
             cond = results[i][4]
         results[i] = [results[i][0], results[i][1], results[i][2], results[i][3], cond ]
     
-    
-        
-    
     for i in range(len(results)):
         if lang == 'fr':
             availability = (af[0] + 'Disponible') if results[i][4] else (af[1] + 'Non Disponible')
@@ -241,11 +339,31 @@ def search(lang = ''):
 @app.route('/<lang>/search/sub')
 @app.route('/search/sub')
 def search_sub(lang = ''):
+    email = None
+    password = None
+    admin = False
+    try: email = session.get('email')
+    except: pass
+    try: password = session.get('password')
+    except: pass
+    try: admin = session.get('admin')
+    except: pass
+    
     results = '</table>'
     if lang == 'fr':
-        return render_template('fr/search-sub.html', results=results, cursor=0)
+        if email != None and password != None and admin:
+            return render_template('fr/search-sub.html', results=results, cursor=0)
+        elif email != None and password != None and not admin:
+            return redirect('/fr/account')
+        else:
+            return redirect('/fr/connect')
     else:
-        return render_template('en/search-sub.html', results=results, cursor=0)
+        if email != None and password != None and admin:
+            return render_template('en/search-sub.html', results=results, cursor=0)
+        elif email != None and password != None and not admin:
+            return redirect('/account')
+        else:
+            return redirect('/connect')
 
 @app.route('/<lang>/search/sub', methods=['POST'])
 @app.route('/search/sub', methods=['POST'])
